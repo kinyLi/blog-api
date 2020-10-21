@@ -10,13 +10,13 @@ import { UserResponse } from './user.interface';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
+  @Get('info')
   @ApiOperation({ summary: '获取个人信息' })
-  getUserInfo(): Promise<User[]> {
-    return this.userService.findAll();
+  async getUserInfo(): Promise<User[]> {
+    return await this.userService.findAll();
   }
 
-  @Post()
+  @Post('create')
   @ApiOperation({ summary: '注册新用户' })
   async createUser(@Body() body: CreateUserDto):Promise<UserResponse<User>> {
     return {

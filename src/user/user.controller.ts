@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, LoginUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
-import {User} from './user.schema';
+import { User } from './user.schema';
+import { UserResponse } from './user.interface';
 
 @Controller('user')
 @ApiTags('用户相关')
@@ -17,14 +18,27 @@ export class UserController {
 
   @Post()
   @ApiOperation({ summary: '注册新用户' })
-  async createUser(@Body() body: CreateUserDto) {
-    await this.userService.create(body)
+  async createUser(@Body() body: CreateUserDto):Promise<UserResponse<User>> {
+    return {
+      code: 200,
+      msg: 'ok',
+      data: await this.userService.create(body)
+    }
   }
 
-  @Get(':id')
-  detail() {
+  @Post('login')
+  @ApiOperation({ summary: '登录'})
+  async loginUser(@Body() body: LoginUserDto):Promise<UserResponse> {
+    const data = await this.userService.login(body);
+    if(data) {
+      return {
+        code: 200,
+        msg: 'ok'
+      }
+    }
     return {
-      id: 111,
-    };
+      code: 202,
+      msg: 'fail'
+    }
   }
 }

@@ -1,18 +1,18 @@
-@url=http://localhost:3000/user
+@url=http://localhost:5000/user
 
 @json=Content-Type: application/json
 
 ### 查询
-get {{url}}/get
+get {{url}}
 
 ### 注册
-# post {{url}}/register
-# {{json}}
+post {{url}}/login
+{{json}}
 
-# {
-#     "username": "user3",
-#     "password": "123456"
-# }
+{
+    "username": "user3",
+    "password": "123456"
+}
 
 ### 登录
 # post {{url}}/login

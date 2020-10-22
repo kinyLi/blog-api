@@ -1,0 +1,15 @@
+export const MASSAGE = {
+  USER_ALREADY_EXISTS: '用户已存在',
+  USER_CREATE_SUCCESS: '创建成功',
+  USER_DOES_NOT_EXIST: '用户不存在',
+  PASSWORD_ERROR: '密码错误',
+  LOGIN_OK: '登录成功'
+}
+
+export const CODE = {
+  USER_ALREADY_EXISTS: 443,
+  USER_CREATE_SUCCESS: 200,
+  USER_DOES_NOT_EXIST: 404,
+  PASSWORD_ERROR: 403,
+  LOGIN_OK: 200
+}

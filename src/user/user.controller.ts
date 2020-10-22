@@ -19,26 +19,14 @@ export class UserController {
   @Post('create')
   @ApiOperation({ summary: '注册新用户' })
   async createUser(@Body() body: CreateUserDto):Promise<UserResponse<User>> {
-    return {
-      code: 200,
-      msg: 'ok',
-      data: await this.userService.create(body)
-    }
+    const data = await this.userService.create(body);
+    return data;
   }
 
   @Post('login')
   @ApiOperation({ summary: '登录'})
   async loginUser(@Body() body: LoginUserDto):Promise<UserResponse> {
     const data = await this.userService.login(body);
-    if(data) {
-      return {
-        code: 200,
-        msg: 'ok'
-      }
-    }
-    return {
-      code: 202,
-      msg: 'fail'
-    }
+    return data;
   }
 }

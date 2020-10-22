@@ -26,6 +26,8 @@
     "@nestjs/mongoose": "^7.0.2",
     "@nestjs/platform-express": "^7.0.0",
     "@nestjs/swagger": "^4.6.1",
+    "bcryptjs": "^2.4.3",
+    "csurf": "^1.11.0",
     "mongoose": "^5.10.9",
     "nestjs-typegoose": "^7.1.38",
     "reflect-metadata": "^0.1.13",

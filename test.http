@@ -3,25 +3,25 @@
 @json=Content-Type: application/json
 
 ### 查询
-get {{url}}
+get {{url}}/info
 
 ### 注册
+# post {{url}}/create
+# {{json}}
+
+# {
+#     "username": "user39",
+#     "password": "123456"
+# }
+
+## 登录
 post {{url}}/login
 {{json}}
 
 {
-    "username": "user3",
+    "username": "user39",
     "password": "123456"
 }
-
-### 登录
-# post {{url}}/login
-# {{json}}
-
-# {
-#     "username": "user2",
-#     "password": "123456"
-# }
 
 ### 个人信息
 # get {{url}}/profile

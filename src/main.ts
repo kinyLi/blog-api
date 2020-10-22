@@ -1,16 +1,23 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+// import * as csurf from 'csurf';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {cors: true});
 
+  // cors跨域处理 暂不配置
+  app.enableCors()
+
+  // csrf跨站请求攻击 暂不配置
+  // app.use(csurf());
+
+  // swagger 配置
   const options = new DocumentBuilder()
     .setTitle('blog-api')
     .setDescription('blog Api 接口')
     .setVersion('1.0')
     .build();
-
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api-docs', app, document);
 

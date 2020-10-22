@@ -18,13 +18,17 @@ export class UserService {
 
   // 创建用户
   async create(createUserDto: CreateUserDto): Promise<any> {
+    const { username, password} = createUserDto;
+    // if(!nick) {
+    //   createUserDto.nick =
+    // }
     // 查询用户是否存在
-    const user = await this.findUsername(createUserDto.username);
+    const user = await this.findUsername(username);
     let msg,
     code;
     if(!user) {
       // hash密码加密 密文保存密码
-      createUserDto.password = await bcrypt.hash(createUserDto.password, saltRounds)
+      createUserDto.password = await bcrypt.hash(password, saltRounds)
 
       // 数据库存储新用户
       const createdUser = new this.userModel(createUserDto);
@@ -49,12 +53,14 @@ export class UserService {
   }
 
   async login(loginUserDto: LoginUserDto): Promise<any> {
+    const {username, password} = loginUserDto;
+
     // 查询用户是否存在
-    const user = await this.findUsername(loginUserDto.username);
+    const user = await this.findUsername(username);
     let code,msg;
     if(user) {
       // 前端明文密码对比后端密文密码
-      const isOk = await bcrypt.compare(loginUserDto.password, user.password);
+      const isOk = await bcrypt.compare(password, user.password);
       code = isOk ? CODE.LOGIN_OK : CODE.PASSWORD_ERROR,
       msg = isOk ? MASSAGE.LOGIN_OK : MASSAGE.PASSWORD_ERROR
     } else {

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateUserDto, LoginUserDto } from './dto/create-user.dto';
+import { CreateUserDto, LoginUserDto } from './dto/index';
 import { User } from './user.schema';
 import { MASSAGE, CODE } from './user.constant';
 import * as bcrypt from 'bcryptjs';

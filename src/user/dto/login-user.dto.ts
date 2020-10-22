@@ -1,15 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateUserDto {
+export class LoginUserDto {
   @ApiProperty({ description: '用户名' })
   username: string;
-
   @ApiProperty({ description: '密码' })
   password: string;
-
-  @ApiProperty({description: '昵称'})
-  nick: string;
+  @ApiProperty({ description: '邮箱' })
+  email: string;
 }
-//  实名
-
-
+// token 下发及验证

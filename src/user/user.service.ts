@@ -1,15 +1,20 @@
-import { Injectable,HttpException } from '@nestjs/common';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDto, LoginUserDto } from './dto/index';
 import { User } from './user.schema';
 import { MASSAGE, CODE } from './user.constant';
-import * as bcrypt from 'bcryptjs';
+import { CryptoUtil } from '../utils/crypto.util';
 
-const saltRounds = 10;
 @Injectable()
-export class UserService {
-  constructor(@InjectModel(User.name) private readonly userModel: Model<User>){}
+export class UserService implements OnModuleInit {
+  onModuleInit(): any {
+    // init
+  }
+  constructor(
+    @InjectModel(User.name) private readonly userModel: Model<User>,
+    @Inject(CryptoUtil) private readonly cryptoUtil: CryptoUtil
+  ){}
 
   // 查询用户名是否存在
   async findUsername( username: string):Promise<User> {
@@ -28,7 +33,7 @@ export class UserService {
     let data = {}
     if(!user) {
       // hash密码加密 密文保存密码
-      createUserDto.password = await bcrypt.hash(password, saltRounds)
+      createUserDto.password = await this.cryptoUtil.encryptPassword(password);
 
       // 数据库存储新用户
       const createdUser = new this.userModel(createUserDto);
@@ -63,10 +68,10 @@ export class UserService {
     let data = {};
     if(user) {
       // 前端明文密码对比后端密文密码
-      const isOk = await bcrypt.compare(password, user.password);
+      const result = await this.cryptoUtil.checkPassword(password, user.password);
       data = {
-        code: isOk ? CODE.LOGIN_OK : CODE.PASSWORD_ERROR,
-        msg: isOk ? MASSAGE.LOGIN_OK : MASSAGE.PASSWORD_ERROR
+        code: result ? CODE.LOGIN_OK : CODE.PASSWORD_ERROR,
+        msg: result ? MASSAGE.LOGIN_OK : MASSAGE.PASSWORD_ERROR
       }
     } else {
         data = {

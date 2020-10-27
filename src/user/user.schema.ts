@@ -15,8 +15,8 @@ export class User extends Document {
   @Prop()
   info: {
     name: string,
-    sex: string,
-    age: string,
+    sex: number, // 0 girl / 1 boy
+    age: number,
     email: string,
     phone: number,
   };

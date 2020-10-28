@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto, LoginUserDto } from './dto/index';
 import { UserService } from './user.service';
@@ -41,11 +41,21 @@ export class UserController {
   @Delete('delete/:id')
   @ApiOperation({ summary: '注销' })
   async deleteUser(@Param('id') id: string):Promise<Result> {
-    console.log(id)
     const data = await this.userService.delete(id);
     return {
       statusCode: CODE.SUCCESS,
       message: MASSAGE.DELETE_SUCCESS,
+      data
+    }
+  }
+
+  @Put('update/:id')
+  @ApiOperation({ summary: '更新资料' })
+  async updateUser(@Param('id') id: string,@Body() updateInput: CreateUserDto):Promise<Result> {
+    const data = await this.userService.update(id, updateInput)
+    return {
+      statusCode: CODE.SUCCESS,
+      message: MASSAGE.UPDATE_SUCCESS,
       data
     }
   }

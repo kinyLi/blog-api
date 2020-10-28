@@ -6,7 +6,8 @@ export const MASSAGE = {
   LOGIN_OK: '登录成功',
   PARAM_NULL: '参数不能为空',
   PARAM_TYPE_ERROR: '参数错误',
-  DELETE_SUCCESS: '删除用户成功'
+  DELETE_SUCCESS: '删除用户成功',
+  UPDATE_SUCCESS: '更新用户资料完成'
 }
 
 export const CODE = {

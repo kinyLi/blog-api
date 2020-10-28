@@ -28,8 +28,8 @@ export class UserService implements OnModuleInit {
    * 查询id
    * @param id id
    */
-  async findId( _id: string ):Promise<User> {
-    return await this.userModel.findOne({_id}).exec();
+  async findId( id: string ):Promise<User> {
+    return await this.userModel.findById(id);
   }
 
   /**
@@ -93,14 +93,41 @@ export class UserService implements OnModuleInit {
     return {username};
   }
 
-  async delete(_id: string): Promise<any> {
-    const user = await this.findId(_id);
+  /**
+   * 删除用户
+   * @param id 用户id
+   */
+  async delete(id: string): Promise<any> {
+    // 查询用户
+    const user = await this.findId(id);
     if(!user){
       throw new HttpException(
         MASSAGE.USER_DOES_NOT_EXIST,
         CODE.USER_DOES_NOT_EXIST
       )
     }
-    await this.userModel.remove({_id});
+
+    // 删除用户
+    await this.userModel.findByIdAndRemove(id);
+  }
+
+  /**
+   * 更新用户资料
+   * @param id 用户id
+   * @param updateInput 更新数据
+   */
+  async update(id: string, updateInput: CreateUserDto): Promise<any> {
+    const user = await this.findId(id);
+    if(!user){
+      throw new HttpException(
+        MASSAGE.USER_DOES_NOT_EXIST,
+        CODE.USER_DOES_NOT_EXIST
+      )
+    }
+    // TODO: 补充其余异常
+    const updateUser = Object.assign(user, updateInput)
+    const createdUser = new this.userModel(updateUser);
+    createdUser.save()
+    return updateInput;
   }
 }

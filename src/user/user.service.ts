@@ -20,11 +20,22 @@ export class UserService implements OnModuleInit {
    * 查询用户名
    * @param username 用户名
    */
-  async findUsername( username: string):Promise<User> {
+  async findUsername( username: string ):Promise<User> {
     return await this.userModel.findOne({username}).exec();
   }
 
-  // 创建用户
+  /**
+   * 查询id
+   * @param id id
+   */
+  async findId( _id: string ):Promise<User> {
+    return await this.userModel.findOne({_id}).exec();
+  }
+
+  /**
+   * 创建用户
+   * @param createUserDto
+   */
   async create(createUserDto: CreateUserDto): Promise<any> {
     const { username, password } = createUserDto;
     // const { name, sex, age, email, phone } = info;
@@ -45,10 +56,17 @@ export class UserService implements OnModuleInit {
     return {username};
   }
 
+  /**
+   * 查询所有
+   */
   async findAll(): Promise<User[]> {
     return this.userModel.find().exec();
   }
 
+  /**
+   * 登录
+   * @param loginUserDto
+   */
   async login(loginUserDto: LoginUserDto): Promise<any> {
     const {username, password} = loginUserDto;
 
@@ -73,5 +91,16 @@ export class UserService implements OnModuleInit {
 
     // TODO: 颁发jwt
     return {username};
+  }
+
+  async delete(_id: string): Promise<any> {
+    const user = await this.findId(_id);
+    if(!user){
+      throw new HttpException(
+        MASSAGE.USER_DOES_NOT_EXIST,
+        CODE.USER_DOES_NOT_EXIST
+      )
+    }
+    await this.userModel.remove({_id});
   }
 }

@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
 // import * as csurf from 'csurf';
 
 async function bootstrap() {
@@ -8,7 +9,8 @@ async function bootstrap() {
 
   // cors跨域处理 暂不配置
   app.enableCors()
-
+  // 开启全局管道
+  app.useGlobalPipes(new ValidationPipe())
   // csrf跨站请求攻击 暂不配置
   // app.use(csurf());
 

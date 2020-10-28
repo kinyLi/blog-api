@@ -10,18 +10,17 @@ get {{url}}/info
 # {{json}}
 
 # {
-#     "username": "user313118111",
+#     "username": "",
 #     "password": "123456",
 #     "nick": "kiny"
 # }
 
 ## 登录
-post {{url}}/login
+delete {{url}}/delete
 {{json}}
 
 {
-    "username": "user31311",
-    "password": "123456"
+    "id": "5f8fad8c9229d46124f139ca"
 }
 
 ### 个人信息

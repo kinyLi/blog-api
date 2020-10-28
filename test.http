@@ -6,23 +6,23 @@
 get {{url}}/info
 
 ### 注册
-post {{url}}/create
-{{json}}
-
-{
-    "username": "user31311111",
-    "password": "123456",
-    "nick": "kiny"
-}
-
-## 登录
-# post {{url}}/login
+# post {{url}}/create
 # {{json}}
 
 # {
-#     "username": "user31311",
-#     "password": "123456"
+#     "username": "user313118111",
+#     "password": "123456",
+#     "nick": "kiny"
 # }
+
+## 登录
+post {{url}}/login
+{{json}}
+
+{
+    "username": "user31311",
+    "password": "123456"
+}
 
 ### 个人信息
 # get {{url}}/profile

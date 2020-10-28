@@ -1,4 +1,4 @@
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { HttpException, Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDto, LoginUserDto } from './dto/index';
@@ -16,7 +16,10 @@ export class UserService implements OnModuleInit {
     @Inject(CryptoUtil) private readonly cryptoUtil: CryptoUtil
   ){}
 
-  // 查询用户名是否存在
+  /**
+   * 查询用户名
+   * @param username 用户名
+   */
   async findUsername( username: string):Promise<User> {
     return await this.userModel.findOne({username}).exec();
   }
@@ -30,30 +33,16 @@ export class UserService implements OnModuleInit {
     // }
     // 查询用户是否存在
     const user = await this.findUsername(username);
-    let data = {}
-    if(!user) {
-      // hash密码加密 密文保存密码
-      createUserDto.password = await this.cryptoUtil.encryptPassword(password);
-
-      // 数据库存储新用户
-      const createdUser = new this.userModel(createUserDto);
-      createdUser.save();
-
-      // 创建成功
-      data = {
-        msg: MASSAGE.USER_CREATE_SUCCESS,
-        code: CODE.USER_CREATE_SUCCESS
-      }
-    } else {
-      // TODO: 更改使用 HttpException 来返回失败信息
-      // throw new HttpException(`用户已存在,创建失败`, 403)
+    if(user) {
       // 用户存在
-      data = {
-        msg: MASSAGE.USER_ALREADY_EXISTS,
-        code: CODE.USER_ALREADY_EXISTS
-      }
+      throw new HttpException(MASSAGE.USER_ALREADY_EXISTS, CODE.USER_ALREADY_EXISTS)
     }
-    return data;
+    // hash密码加密 密文保存密码
+    createUserDto.password = await this.cryptoUtil.encryptPassword(password);
+    // 数据库存储新用户
+    const createdUser = new this.userModel(createUserDto);
+    createdUser.save();
+    return {username};
   }
 
   async findAll(): Promise<User[]> {
@@ -65,20 +54,24 @@ export class UserService implements OnModuleInit {
 
     // 查询用户是否存在
     const user = await this.findUsername(username);
-    let data = {};
-    if(user) {
-      // 前端明文密码对比后端密文密码
-      const result = await this.cryptoUtil.checkPassword(password, user.password);
-      data = {
-        code: result ? CODE.LOGIN_OK : CODE.PASSWORD_ERROR,
-        msg: result ? MASSAGE.LOGIN_OK : MASSAGE.PASSWORD_ERROR
-      }
-    } else {
-        data = {
-        code: CODE.USER_DOES_NOT_EXIST,
-        msg: MASSAGE.USER_DOES_NOT_EXIST
-      }
+    if(!user) {
+      // 用户不存在
+      throw new HttpException(
+        MASSAGE.USER_DOES_NOT_EXIST,
+        CODE.USER_DOES_NOT_EXIST
+      )
     }
-    return data;
+    // 前端明文密码对比后端密文密码
+    const result = await this.cryptoUtil.checkPassword(password, user.password);
+    if(!result) {
+      // 密码错误
+      throw new HttpException(
+        MASSAGE.PASSWORD_ERROR,
+        CODE.PASSWORD_ERROR
+      )
+    }
+
+    // TODO: 颁发jwt
+    return {username};
   }
 }

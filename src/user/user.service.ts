@@ -124,7 +124,7 @@ export class UserService implements OnModuleInit {
         CODE.USER_DOES_NOT_EXIST
       )
     }
-    // TODO: 补充其余异常
+    // TODO:补充其余异常
     const updateUser = Object.assign(user, updateInput)
     const createdUser = new this.userModel(updateUser);
     createdUser.save()

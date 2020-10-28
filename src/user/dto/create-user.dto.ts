@@ -1,6 +1,5 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { UserInfo } from '../user.interface';
 import { MASSAGE } from '../user.constant';
 export class CreateUserDto {
   @ApiProperty({ description: '用户名' })
@@ -14,5 +13,12 @@ export class CreateUserDto {
   password: string;
 
   @ApiProperty({description: '信息'})
-  info: UserInfo;
+  info: {
+    name?: string,
+    sex?: number,
+    age?: number,
+    email?: string,
+    phone?: number,
+    nick?: string
+  };
 }

@@ -3,6 +3,7 @@ export const MASSAGE = {
   USER_CREATE_SUCCESS: '创建成功',
   USER_DOES_NOT_EXIST: '用户不存在',
   PASSWORD_ERROR: '密码错误',
+  PASSWORD_NULL: '密码不能为空',
   LOGIN_OK: '登录成功',
   PARAM_NULL: '参数不能为空',
   PARAM_TYPE_ERROR: '参数错误',

@@ -5,6 +5,7 @@ import { CreateUserDto, LoginUserDto } from './dto/index';
 import { User } from './user.schema';
 import { MASSAGE, CODE } from './user.constant';
 import { CryptoUtil } from '../utils/crypto.util';
+import { JwtUtil } from '../utils/jwt.util';
 
 @Injectable()
 export class UserService implements OnModuleInit {
@@ -13,7 +14,8 @@ export class UserService implements OnModuleInit {
   }
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<User>,
-    @Inject(CryptoUtil) private readonly cryptoUtil: CryptoUtil
+    @Inject(CryptoUtil) private readonly cryptoUtil: CryptoUtil,
+    @Inject(JwtUtil) private readonly jwtUtil: JwtUtil
   ){}
 
   /**
@@ -89,8 +91,9 @@ export class UserService implements OnModuleInit {
       )
     }
 
+    const token = await this.jwtUtil.createToken(user,60);
     // TODO: 颁发jwt
-    return {username};
+    return {username,token};
   }
 
   /**

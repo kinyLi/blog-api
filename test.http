@@ -16,11 +16,12 @@ get {{url}}/info
 # }
 
 ## 登录
-delete {{url}}/delete
+post {{url}}/login
 {{json}}
 
 {
-    "id": "5f8fad8c9229d46124f139ca"
+    "username": "clearLove",
+    "password": "123456"
 }
 
 ### 个人信息

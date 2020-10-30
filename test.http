@@ -21,7 +21,8 @@ post {{url}}/login
 
 {
     "username": "clearLove",
-    "password": "123456"
+    "password": "123456",
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNsZWFyTG92ZSIsInBhc3N3b3JkIjoiJDJhJDEwJHhjVTRCcVZNREpPcTR0S2JES0RFaC4wNWVseGRHS0I3dDFteXdvcXdOV2dVQ2JNSmI1cExxIiwiaWF0IjoxNjA0MDI2MjgyLCJleHAiOjE2MDQwMjYzNDJ9.rsX4bVsNR8JSVf8-VKbDZiAH64UQB391AlsgLCgsES4"
 }
 
 ### 个人信息

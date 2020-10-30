@@ -5,7 +5,7 @@ export class LoginUserDto {
   username: string;
   @ApiProperty({ description: '密码' })
   password: string;
-  @ApiProperty({ description: '邮箱' })
-  email: string;
+  @ApiProperty({ description: 'token' })
+  accessToken: string
 }
 // token 下发及验证

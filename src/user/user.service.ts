@@ -70,7 +70,20 @@ export class UserService implements OnModuleInit {
    * @param loginUserDto
    */
   async login(loginUserDto: LoginUserDto): Promise<any> {
-    const {username, password} = loginUserDto;
+    const {username, password, accessToken} = loginUserDto;
+    if(accessToken) {
+      const checkTokenResult = await this.jwtUtil.checkToken(loginUserDto)
+      if(checkTokenResult !== 200) {
+        throw new HttpException(
+          '未授权',
+          checkTokenResult
+        )
+      }
+      return {username, accessToken};
+    }
+    // if(checkTokenResult) {
+    //   console.log(checkTokenResult)
+    // }
 
     // 查询用户是否存在
     const user = await this.findUsername(username);
@@ -92,8 +105,7 @@ export class UserService implements OnModuleInit {
     }
 
     const token = await this.jwtUtil.createToken(user,60);
-    // TODO: 颁发jwt
-    return {username,token};
+    return {username,accessToken: token};
   }
 
   /**

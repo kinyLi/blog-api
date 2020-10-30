@@ -29,7 +29,12 @@ export class JwtUtil {
     })
   }
 
+  /**
+   *
+   * @param user 用户登录信息
+   */
   async checkToken(user: User): Promise<number> {
+    // token验证过程成功正常执行,失败会导致程序异常，需要使用try/catch
     try {
       const result = this.jwtService.verify(user.accessToken, {
         secret: secret

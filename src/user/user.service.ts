@@ -72,6 +72,7 @@ export class UserService implements OnModuleInit {
   async login(loginUserDto: LoginUserDto): Promise<any> {
     const {username, password, accessToken} = loginUserDto;
     if(accessToken) {
+      // 当信息有token时不再进行数据库校验
       const checkTokenResult = await this.jwtUtil.checkToken(loginUserDto)
       if(checkTokenResult !== 200) {
         throw new HttpException(

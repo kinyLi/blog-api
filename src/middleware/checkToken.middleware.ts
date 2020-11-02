@@ -15,7 +15,6 @@ export class CheckToken implements NestMiddleware {
       if(resultCode !== 200) {
         throw new HttpException('未授权', resultCode)
       }
-      throw new HttpException('登录成功', resultCode)
     }
     next();
   }

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, HttpException } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto, LoginUserDto } from './dto/index';
 import { UserService } from './user.service';
@@ -10,10 +10,18 @@ import { CODE, MASSAGE } from './user.constant';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get('info')
-  @ApiOperation({ summary: '获取个人信息' })
-  async getUserInfo(): Promise<User[]> {
-    return await this.userService.findAll();
+  // @Get('info')
+  // @ApiOperation({ summary: '获取个人信息' })
+  // async getUserInfo(): Promise<User[]> {
+  //   return await this.userService.findAll();
+  // }
+
+  @Get('query')
+  @ApiOperation({ summary: '查询个人' })
+  async getUserInfo(@Body() body: LoginUserDto): Promise<User> {
+    if(!body.accessToken) throw new HttpException('未授权', 0);
+    const user = await this.userService.findUsername(body.username);
+    return user;
   }
 
   @Post('create')

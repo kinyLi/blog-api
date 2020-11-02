@@ -70,10 +70,13 @@ export class UserService implements OnModuleInit {
    * @param loginUserDto
    */
   async login(loginUserDto: LoginUserDto): Promise<any> {
-    const {username, password} = loginUserDto;
-    // if(checkTokenResult) {
-    //   console.log(checkTokenResult)
-    // }
+    const {username, password, accessToken} = loginUserDto;
+    if(accessToken) {
+      return {
+        username,
+        accessToken
+      }
+    }
 
     // 查询用户是否存在
     const user = await this.findUsername(username);

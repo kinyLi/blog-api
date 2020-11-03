@@ -8,4 +8,13 @@ export class UpdateUserDto {
   @IsNotEmpty({ message: MASSAGE.PASSWORD_NULL })
   password: string;
 
+  @ApiProperty({description: '信息'})
+  info: {
+    name?: string,
+    sex?: number,
+    age?: number,
+    email?: string,
+    phone?: number,
+    nick?: string
+  };
 }

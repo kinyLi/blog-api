@@ -8,7 +8,8 @@ export const MASSAGE = {
   PARAM_NULL: '参数不能为空',
   PARAM_TYPE_ERROR: '参数错误',
   DELETE_SUCCESS: '删除用户成功',
-  UPDATE_SUCCESS: '更新用户资料完成'
+  UPDATE_SUCCESS: '更新用户资料完成',
+  DISABLE_CHANGE_USERNAME: '禁止修改用户名'
 }
 
 export const CODE = {
@@ -16,4 +17,5 @@ export const CODE = {
   USER_ALREADY_EXISTS: 443,
   USER_DOES_NOT_EXIST: 404,
   PASSWORD_ERROR: 403,
+  DISABLE_CHANGE_USERNAME: 405
 }

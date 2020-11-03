@@ -5,6 +5,7 @@ import { UserService } from './user.service';
 import { User } from './user.schema';
 import { Result } from './user.interface';
 import { CODE, MASSAGE } from './user.constant';
+import { UpdateUserDto } from './dto/update-user.dto';
 @Controller('user')
 @ApiTags('用户相关')
 export class UserController {
@@ -19,9 +20,14 @@ export class UserController {
   @Get('query')
   @ApiOperation({ summary: '查询个人' })
   async getUserInfo(@Body() body: LoginUserDto): Promise<User> {
-    if(!body.accessToken) throw new HttpException('未授权', 0);
-    const user = await this.userService.findUsername(body.username);
-    return user;
+    const info = await this.userService.findUsername(body.username);
+    if(!info) {
+      throw new HttpException(
+        MASSAGE.USER_DOES_NOT_EXIST,
+        CODE.USER_DOES_NOT_EXIST
+      )
+    }
+    return info;
   }
 
   @Post('create')
@@ -59,7 +65,7 @@ export class UserController {
 
   @Put('update/:id')
   @ApiOperation({ summary: '更新资料' })
-  async updateUser(@Param('id') id: string,@Body() updateInput: CreateUserDto):Promise<Result> {
+  async updateUser(@Param('id') id: string, @Body() updateInput: UpdateUserDto):Promise<Result> {
     const data = await this.userService.update(id, updateInput)
     return {
       statusCode: CODE.SUCCESS,

@@ -6,6 +6,7 @@ import { User } from './user.schema';
 import { MASSAGE, CODE } from './user.constant';
 import { CryptoUtil } from '../utils/crypto.util';
 import { JwtUtil } from '../utils/jwt.util';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService implements OnModuleInit {
@@ -23,7 +24,8 @@ export class UserService implements OnModuleInit {
    * @param username 用户名
    */
   async findUsername( username: string ):Promise<User> {
-    return await this.userModel.findOne({username}).exec();
+    const info = await this.userModel.findOne({username},{password: 0}).exec();
+    return info;
   }
 
   /**
@@ -71,6 +73,8 @@ export class UserService implements OnModuleInit {
    */
   async login(loginUserDto: LoginUserDto): Promise<any> {
     const {username, password, accessToken} = loginUserDto;
+
+    // 存在accessToken则代表通过中间件校验,无需再次查询数据库
     if(accessToken) {
       return {
         username,
@@ -97,7 +101,7 @@ export class UserService implements OnModuleInit {
       )
     }
 
-    const token = await this.jwtUtil.createToken(user,60);
+    const token = await this.jwtUtil.createToken(user, 600);
     return {username,accessToken: token};
   }
 
@@ -124,7 +128,7 @@ export class UserService implements OnModuleInit {
    * @param id 用户id
    * @param updateInput 更新数据
    */
-  async update(id: string, updateInput: CreateUserDto): Promise<any> {
+  async update(id: string, updateInput: UpdateUserDto): Promise<any> {
     const user = await this.findId(id);
     if(!user){
       throw new HttpException(
@@ -132,7 +136,20 @@ export class UserService implements OnModuleInit {
         CODE.USER_DOES_NOT_EXIST
       )
     }
-    // TODO:补充其余异常
+
+    // 用户名不可更改
+    // if(updateInput.username || updateInput._id) {
+    //   throw new HttpException(
+    //     MASSAGE.DISABLE_CHANGE_USERNAME,
+    //     CODE.DISABLE_CHANGE_USERNAME
+    //   )
+    // }
+
+    // 有修改密码的行为则需要对密码加盐
+    if(updateInput.password) {
+      updateInput.password = await this.cryptoUtil.encryptPassword(updateInput.password);
+    }
+
     const updateUser = Object.assign(user, updateInput)
     const createdUser = new this.userModel(updateUser);
     createdUser.save()

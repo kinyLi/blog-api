@@ -1,6 +1,7 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { MASSAGE } from '../user.constant';
+import { UserInfoDto } from './user.dto';
 export class CreateUserDto {
   @ApiProperty({ description: '用户名' })
   @IsNotEmpty({message: MASSAGE.PARAM_NULL})
@@ -13,12 +14,5 @@ export class CreateUserDto {
   password: string;
 
   @ApiProperty({description: '信息'})
-  info: {
-    name?: string,
-    sex?: number,
-    age?: number,
-    email?: string,
-    phone?: number,
-    nick?: string
-  };
+  info: UserInfoDto
 }

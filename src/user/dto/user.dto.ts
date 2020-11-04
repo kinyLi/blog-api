@@ -1,25 +1,21 @@
-import { IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { MASSAGE } from '../user.constant';
 
-export class UserDto {
-  @ApiProperty({ description: '用户名' })
-  @IsNotEmpty({message: MASSAGE.PARAM_NULL})
-  @IsString({message: MASSAGE.PARAM_TYPE_ERROR})
-  username: string;
+export class UserInfoDto {
+  @ApiProperty({ description: '姓名' })
+  name: string;
 
-  @ApiProperty({ description: '密码' })
-  @IsNotEmpty({message: MASSAGE.PARAM_NULL})
-  @IsString({message: MASSAGE.PARAM_TYPE_ERROR})
-  password: string;
+  @ApiProperty({ description: '性别' })
+  sex: number;
 
-  @ApiProperty({description: '信息'})
-  info: {
-    name?: string,
-    sex?: number,
-    age?: number,
-    email?: string,
-    phone?: number,
-    nick?: string
-  };
+  @ApiProperty({ description: '年龄' })
+  age: number;
+
+  @ApiProperty({ description: '邮箱' })
+  email: string;
+
+  @ApiProperty({ description: '手机' })
+  phone: number;
+
+  @ApiProperty({ description: '昵称' })
+  nick: string;
 }

@@ -23,8 +23,9 @@ export class UserService implements OnModuleInit {
    * 查询用户名
    * @param username 用户名
    */
-  async findUsername( username: string ):Promise<User> {
-    const info = await this.userModel.findOne({username},{password: 0}).exec();
+  async findUsername( username: string, password?: string ):Promise<User> {
+    // 前端查询需要屏蔽密码返回,后端查询需要返回密码比对
+    const info = await this.userModel.findOne({username},{password: password ? 1 : 0}).exec();
     return info;
   }
 
@@ -47,7 +48,7 @@ export class UserService implements OnModuleInit {
     //   createUserDto.nick =
     // }
     // 查询用户是否存在
-    const user = await this.findUsername(username);
+    const user = await this.findUsername(username, password);
     if(user) {
       // 用户存在
       throw new HttpException(MASSAGE.USER_ALREADY_EXISTS, CODE.USER_ALREADY_EXISTS)
@@ -73,7 +74,6 @@ export class UserService implements OnModuleInit {
    */
   async login(loginUserDto: LoginUserDto): Promise<any> {
     const {username, password, accessToken} = loginUserDto;
-
     // 存在accessToken则代表通过中间件校验,无需再次查询数据库
     if(accessToken) {
       return {
@@ -83,7 +83,7 @@ export class UserService implements OnModuleInit {
     }
 
     // 查询用户是否存在
-    const user = await this.findUsername(username);
+    const user = await this.findUsername(username, password);
     if(!user) {
       // 用户不存在
       throw new HttpException(

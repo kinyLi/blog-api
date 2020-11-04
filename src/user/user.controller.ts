@@ -1,11 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, HttpException } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreateUserDto, LoginUserDto } from './dto/index';
+import { CreateUserDto, LoginUserDto, UpdateUserDto, QueryUserDto } from './dto/index';
 import { UserService } from './user.service';
 import { User } from './user.schema';
 import { Result } from './user.interface';
 import { CODE, MASSAGE } from './user.constant';
-import { UpdateUserDto } from './dto/update-user.dto';
 @Controller('user')
 @ApiTags('用户相关')
 export class UserController {
@@ -21,9 +20,9 @@ export class UserController {
     return 'hello user';
   }
 
-  @Get('query')
+  @Post('query')
   @ApiOperation({ summary: '查询个人' })
-  async getUserInfo(@Body() body: LoginUserDto): Promise<User> {
+  async getUserInfo(@Body() body: QueryUserDto): Promise<User> {
     const info = await this.userService.findUsername(body.username);
     if(!info) {
       throw new HttpException(

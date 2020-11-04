@@ -16,6 +16,10 @@ export class UserController {
   // async getUserInfo(): Promise<User[]> {
   //   return await this.userService.findAll();
   // }
+  @Get()
+  async index():Promise<string> {
+    return 'hello user';
+  }
 
   @Get('query')
   @ApiOperation({ summary: '查询个人' })

@@ -43,10 +43,6 @@ export class UserService implements OnModuleInit {
    */
   async create(createUserDto: CreateUserDto): Promise<any> {
     const { username, password } = createUserDto;
-    // const { name, sex, age, email, phone } = info;
-    // if(!nick) {
-    //   createUserDto.nick =
-    // }
     // 查询用户是否存在
     const user = await this.findUsername(username, password);
     if(user) {
@@ -136,14 +132,6 @@ export class UserService implements OnModuleInit {
         CODE.USER_DOES_NOT_EXIST
       )
     }
-
-    // 用户名不可更改
-    // if(updateInput.username || updateInput._id) {
-    //   throw new HttpException(
-    //     MASSAGE.DISABLE_CHANGE_USERNAME,
-    //     CODE.DISABLE_CHANGE_USERNAME
-    //   )
-    // }
 
     // 有修改密码的行为则需要对密码加盐
     if(updateInput.password) {

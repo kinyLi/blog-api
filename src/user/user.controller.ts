@@ -10,11 +10,6 @@ import { CODE, MASSAGE } from './user.constant';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  // @Get('info')
-  // @ApiOperation({ summary: '获取个人信息' })
-  // async getUserInfo(): Promise<User[]> {
-  //   return await this.userService.findAll();
-  // }
   @Get()
   async index():Promise<string> {
     return 'hello user';

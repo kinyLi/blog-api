@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { SetArticleDto } from './dto/set-article.dto';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Article } from './article.schema';
+import { GetArticleDto, SetArticleDto, QueryArticleDto } from './dto/index'
 
 @Injectable()
 export class ArticleService {
@@ -11,8 +11,15 @@ export class ArticleService {
     @InjectModel(Article.name) private readonly articleModel: Model<Article>
   ) {}
 
-    async search(): Promise<any> {
-      const data = await this.articleModel.find();
+    async search(getArticleDto: GetArticleDto):Promise<any> {
+      const { limit } = getArticleDto;
+      let data = null
+      if(limit) {
+        // 分页查询
+        data = await this.articleModel.find().limit(limit);
+      }else {
+        data = await this.articleModel.find();
+      }
       return data;
     }
 
@@ -20,5 +27,11 @@ export class ArticleService {
     const setArticle = new this.articleModel(setArticleDto);
     setArticle.save();
     return setArticleDto;
+  }
+
+  async queryArticle(queryArticleDto: QueryArticleDto):Promise<any> {
+    const { keyword } = queryArticleDto;
+    const data = await this.articleModel.find({title: keyword});
+    return data;
   }
 }

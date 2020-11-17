@@ -8,7 +8,7 @@ export class CheckToken implements NestMiddleware {
   constructor(private readonly jwtUtil: JwtUtil) {
 
   }
-  async use(req: Request, res: Response, next: Function):Promise<any> {
+  async use(req: Request, res: Response, next: (() => void)):Promise<void> {
     const body = req.body && req.body || null;
     if(body.accessToken) {
       const resultCode = await this.jwtUtil.checkToken(body);

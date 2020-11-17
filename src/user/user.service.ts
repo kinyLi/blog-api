@@ -7,10 +7,11 @@ import { MASSAGE, CODE } from './user.constant';
 import { CryptoUtil } from '../utils/crypto.util';
 import { JwtUtil } from '../utils/jwt.util';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserGetInfo } from './user.interface';
 
 @Injectable()
 export class UserService implements OnModuleInit {
-  onModuleInit(): any {
+  onModuleInit(): void {
     // init
   }
   constructor(
@@ -41,7 +42,7 @@ export class UserService implements OnModuleInit {
    * 创建用户
    * @param createUserDto
    */
-  async create(createUserDto: CreateUserDto): Promise<any> {
+  async create(createUserDto: CreateUserDto): Promise<UserGetInfo> {
     const { username, password } = createUserDto;
     // 查询用户是否存在
     const user = await this.findUsername(username, password);
@@ -68,7 +69,7 @@ export class UserService implements OnModuleInit {
    * 登录
    * @param loginUserDto
    */
-  async login(loginUserDto: LoginUserDto): Promise<any> {
+  async login(loginUserDto: LoginUserDto): Promise<UserGetInfo> {
     const {username, password, accessToken} = loginUserDto;
     // 存在accessToken则代表通过中间件校验,无需再次查询数据库
     if(accessToken) {
@@ -105,7 +106,7 @@ export class UserService implements OnModuleInit {
    * 删除用户
    * @param id 用户id
    */
-  async delete(id: string): Promise<any> {
+  async delete(id: string): Promise<UserGetInfo> {
     // 查询用户
     const user = await this.findId(id);
     if(!user){
@@ -117,6 +118,9 @@ export class UserService implements OnModuleInit {
 
     // 删除用户
     await this.userModel.findByIdAndRemove(id);
+    return {
+      username: user.username
+    }
   }
 
   /**
@@ -124,7 +128,7 @@ export class UserService implements OnModuleInit {
    * @param id 用户id
    * @param updateInput 更新数据
    */
-  async update(id: string, updateInput: UpdateUserDto): Promise<any> {
+  async update(id: string, updateInput: UpdateUserDto): Promise<UserGetInfo> {
     const user = await this.findId(id);
     if(!user){
       throw new HttpException(
@@ -141,6 +145,6 @@ export class UserService implements OnModuleInit {
     const updateUser = Object.assign(user, updateInput)
     const createdUser = new this.userModel(updateUser);
     createdUser.save()
-    return updateInput;
+    return {userInfo: updateInput.info};
   }
 }

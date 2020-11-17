@@ -12,3 +12,9 @@ export interface UserInfo {
   phone?: number,
   nick?: string
 }
+
+export interface UserGetInfo {
+  username?: string,
+  accessToken?: string,
+  userInfo?: UserInfo,
+}

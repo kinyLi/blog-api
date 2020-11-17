@@ -1,24 +1,23 @@
-@url=http://localhost:5000/user
+@url=http://localhost:5000/article
 
 @json=Content-Type: application/json
 
 @token=accessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNsZWFyTG92ZSIsInBhc3N3b3JkIjoiJDJhJDEwJHhjVTRCcVZNREpPcTR0S2JES0RFaC4wNWVseGRHS0I3dDFteXdvcXdOV2dVQ2JNSmI1cExxIiwiaWF0IjoxNjA0MDI2MjgyLCJleHAiOjE2MDQwMjYzNDJ9.rsX4bVsNR8JSVf8-VKbDZiAH64UQB391AlsgLCgsES4
 ### 查询
-get {{url}}/query
+get {{url}}/get
 {{json}}
 
 {
-  "username": "string1"
 }
 
-# ### 注册
-# post {{url}}/create
-# {{json}}
+### 注册
+post {{url}}/set
+{{json}}
 
-# {
-#     "username": "qwer",
-#     "password": "123456"
-# }
+{
+    "title": "111222213311",
+    "content": "1333aaaaba"
+}
 
 ## 登录
 # post {{url}}/login HTTP/1.1

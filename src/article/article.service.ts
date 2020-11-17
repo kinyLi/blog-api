@@ -24,9 +24,19 @@ export class ArticleService {
     }
 
   async setArticle(setArticleDto: SetArticleDto):Promise<any> {
+    // set文章
+    // TODO: 索引及查询优化了解
     const setArticle = new this.articleModel(setArticleDto);
+    // const articleId = await setArticle.collection.createIndex(
+    //   {title: 1},
+    //   {
+    //     // unique: true,
+    //     background: true
+    //   }
+    // )
+    // setArticle.articleId = articleId;
     setArticle.save();
-    return setArticleDto;
+    return {...setArticleDto};
   }
 
   async queryArticle(queryArticleDto: QueryArticleDto):Promise<any> {

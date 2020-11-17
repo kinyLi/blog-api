@@ -9,6 +9,8 @@ export class Article extends Document {
   @Prop({required: true})
   content: string;
 
+  @Prop()
+  articleId: string
   // @Prop()
 
 }

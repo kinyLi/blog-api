@@ -1,4 +1,5 @@
 import { Controller, Get } from "@nestjs/common";
+import host from './utils/getHost';
 
 // 5000 主页
 @Controller('/')
@@ -11,7 +12,7 @@ export class AppController {
         Hello, The is my blog api,
       </span>
       <br>
-      <a style="font-size: 20px" href="http://localhost:5000/api-docs/" >
+      <a style="font-size: 20px" href="http://${host}:5000/api-docs/" >
         click my, go to api docs
       </a>
     </div>

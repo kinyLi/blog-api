@@ -5,6 +5,7 @@ import { CheckToken } from './middleware/checkToken.middleware';
 import { UtilsModule } from './utils/util.module';
 import { UserModule } from './user/user.module';
 import { ArticleModule } from './article/article.module';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { ArticleModule } from './article/article.module';
     UtilsModule,
     ArticleModule
   ],
-  controllers: [],
+  controllers: [AppController],
   providers: [],
 })
 export class AppModule implements NestModule {

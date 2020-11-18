@@ -6,12 +6,14 @@ import { UtilsModule } from './utils/util.module';
 import { UserModule } from './user/user.module';
 import { ArticleModule } from './article/article.module';
 import { AppController } from './app.controller';
+import { SettingModule } from './setting/setting.module';
 
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://localhost:27017/nest-blog'),
     UserModule,
     UtilsModule,
+    SettingModule,
     ArticleModule
   ],
   controllers: [AppController],

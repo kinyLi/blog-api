@@ -3,8 +3,8 @@ import {Document} from 'mongoose';
 
 @Schema()
 export class Setting extends Document {
-  @Prop({required: true})
-  url: string;
+  // @Prop({required: true})
+  // url: string;
 }
 
 export const SettingSchema = SchemaFactory.createForClass(Setting)

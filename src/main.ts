@@ -2,12 +2,12 @@ import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import * as multipart from 'connect-multiparty';
 import * as bodyParser from 'body-parser';
 // import * as csurf from 'csurf';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {cors: true});
-
   // cors跨域处理 暂不配置
   app.enableCors()
   // 开启全局管道
@@ -15,6 +15,10 @@ async function bootstrap() {
 
   // 解除express post大小限制
   app.use(bodyParser.json({"limit":'10000kb'}))
+
+  // 解析form-data
+  app.use(multipart())
+
   // csrf跨站请求攻击 暂不配置
   // app.use(csurf());
 

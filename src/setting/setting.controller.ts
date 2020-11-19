@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from "@nestjs/common";
+import { Controller, Get, Post, Body, Req } from '@nestjs/common';
 import { ApiTags } from "@nestjs/swagger";
 import { SettingService } from './Setting.service';
 import { SettingDto } from './dto/setting.dto';
@@ -20,8 +20,9 @@ export class SettingController {
   }
 
   @Post('setting')
-  async settingUrl(@Body() body: SettingDto) {
-    const data = await this.SettingService.setSetting(body);
+  async settingUrl(@Req() req) {
+    const files = req.files;
+    const data = await this.SettingService.setSetting(files)
     return data;
   }
 }

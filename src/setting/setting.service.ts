@@ -3,6 +3,8 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Setting } from './Setting.schema';
 import { SettingDto } from './dto/setting.dto';
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Injectable()
 export class SettingService {
@@ -17,8 +19,15 @@ export class SettingService {
     }
 
     async setSetting(settingDto: SettingDto):Promise<string> {
-      const setSetting = new this.SettingModel(settingDto);
-      setSetting.save();
+      // 存储逻辑
+      const data = await fs.readFileSync(settingDto.file.path);
+      const uploadPath = await path.join(__dirname, 'upload',);
+      const settingPath = await path.join(uploadPath, settingDto.file.name)
+      await fs.mkdirSync(uploadPath);
+      try{
+        await fs.writeFileSync(settingPath, data,'binary')
+      } catch (err) {
+      }
       return 'ok'
     }
 }

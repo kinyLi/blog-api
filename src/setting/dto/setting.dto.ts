@@ -1,3 +1,7 @@
 export class SettingDto {
-    url: string;
+    // url: string;
+  file: {
+    path: 'string',
+    name: 'string'
+  }
 }

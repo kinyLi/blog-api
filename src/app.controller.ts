@@ -1,5 +1,5 @@
 import { Controller, Get } from "@nestjs/common";
-import host from './utils/getHost';
+import { host } from './utils/constant';
 
 // 5000 主页
 @Controller('/')

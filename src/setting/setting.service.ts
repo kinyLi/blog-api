@@ -3,6 +3,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Setting } from './setting.schema';
 import { SettingDto } from './dto/setting.dto';
+import { imageHost } from '../utils/constant';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -23,9 +24,12 @@ export class SettingService {
       const uploadPath = await this.getUploadPath();
       // 读取储存文件下的所有文件
       const data = await fs.readdirSync(uploadPath);
-      // 合并成路径,拼合文件名(后期实现覆盖流,将保存对应文件的文件名)
-      const settingPath = await path.join(uploadPath, data[0])
-      return settingPath;
+
+      // 返回文件
+      if(data && data.length) {
+        return imageHost + data[0]
+      }
+      return 'default';
     }
 
     async setSetting(settingDto: SettingDto):Promise<string> {

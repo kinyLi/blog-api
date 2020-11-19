@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Req, Res } from '@nestjs/common';
 import { ApiTags } from "@nestjs/swagger";
 import { SettingService } from './setting.service';
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Setting } from './Setting.schema';
+import { Setting } from './setting.schema';
 import { SettingDto } from './dto/setting.dto';
 import * as fs from 'fs';
 import * as path from 'path';

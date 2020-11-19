@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, Req } from '@nestjs/common';
 import { ApiTags } from "@nestjs/swagger";
-import { SettingService } from './Setting.service';
-import { SettingDto } from './dto/setting.dto';
+import { SettingService } from './setting.service';
 
 @Controller('Setting')
 @ApiTags('后台管理设置')

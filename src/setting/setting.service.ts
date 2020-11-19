@@ -29,7 +29,7 @@ export class SettingService {
       if(data && data.length) {
         return imageHost + data[0]
       }
-      return 'default';
+      return 'default.jpg';
     }
 
     async setSetting(settingDto: SettingDto):Promise<string> {

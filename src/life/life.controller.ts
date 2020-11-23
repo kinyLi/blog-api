@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Body } from "@nestjs/common";
+import { Controller, Get, Post, Body, Req } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { LifeService } from './life.service';
-import { SetLifeDto } from './dto';
+import { SetLifeDto, CacheLifeDto } from './dto';
 
 export interface Result<T = unknown> {
   statusCode: number;
@@ -18,6 +18,13 @@ export class LifeController {
   async index(): Promise<string> {
     return 'hello life';
   }
+
+  @Post( 'cache')
+  async cacheLifeImage(@Req() req: CacheLifeDto) {
+    return await this.lifeService.cacheLifeImage(req)
+  }
+
+
 
   @Post('set')
   async setLife(@Body() body: SetLifeDto): Promise<Result>{

@@ -11,9 +11,10 @@ export class SetLifeDto {
   @IsString()
   lifeContent: string;
 
-  @ApiProperty({description: '相册'})
-  @IsArray()
-  lifeImages: string[];
+  @ApiProperty({description: 'username'})
+  @IsNotEmpty()
+  @IsString()
+  username: string;
 
   date: number;
 }

@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Setting } from './setting.schema';
@@ -17,8 +17,7 @@ export class SettingService {
 
     async getUploadPath():Promise<string> {
       // 获取储存文件夹路径
-      const uploadPath = await path.join(__dirname, 'upload',);
-      return uploadPath;
+      return path.join(__dirname, 'upload',);
     }
 
     async getSettingFile():Promise<string> {

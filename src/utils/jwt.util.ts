@@ -23,7 +23,7 @@ export class JwtUtil {
       username: user.username,
       password: user.password
     }
-    return await this.jwtService.sign(payload, {
+    return this.jwtService.sign(payload, {
       expiresIn: expiration,
       secret: secret
     })
@@ -43,8 +43,7 @@ export class JwtUtil {
         return 200;
       }
     } catch(err) {
-      const massage = 0;
-      return massage;
+      return 0;
     }
   }
 }

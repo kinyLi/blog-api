@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Article } from './article.schema';
-import { GetArticleDto, SetArticleDto, QueryArticleDto } from './dto/index'
+import { GetArticleDto, SetArticleDto, QueryArticleDto } from './dto'
 
 @Injectable()
 export class ArticleService {
@@ -13,7 +13,7 @@ export class ArticleService {
 
     async search(getArticleDto: GetArticleDto):Promise<any> {
       const { limit } = getArticleDto;
-      let data = null
+      let data;
       if(limit) {
         // 分页查询
         data = await this.articleModel.find().limit(limit);
@@ -26,7 +26,7 @@ export class ArticleService {
   async setArticle(setArticleDto: SetArticleDto):Promise<any> {
     // set文章
     // TODO: 索引及查询优化了解
-    const setArticle = new this.articleModel(setArticleDto);
+    await new this.articleModel(setArticleDto).save()
     // const articleId = await setArticle.collection.createIndex(
     //   {title: 1},
     //   {
@@ -35,13 +35,11 @@ export class ArticleService {
     //   }
     // )
     // setArticle.articleId = articleId;
-    setArticle.save();
     return {...setArticleDto};
   }
 
   async queryArticle(queryArticleDto: QueryArticleDto):Promise<any> {
     const { keyword } = queryArticleDto;
-    const data = await this.articleModel.find({title: keyword});
-    return data;
+    return this.articleModel.find({title: keyword});
   }
 }

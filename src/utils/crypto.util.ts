@@ -22,7 +22,6 @@ export class CryptoUtil {
    */
   async checkPassword(password: string, encryptedPassword: string): Promise<boolean> {
     const result = await bcrypt.compare(password, encryptedPassword);
-    if(result) return true;
-    return false;
+    return !!result;
   }
 }

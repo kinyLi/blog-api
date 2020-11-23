@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, HttpException } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreateUserDto, LoginUserDto, UpdateUserDto, QueryUserDto } from './dto/index';
+import { CreateUserDto, LoginUserDto, UpdateUserDto, QueryUserDto } from './dto';
 import { UserService } from './user.service';
 import { User } from './user.schema';
 import { Result, UserGetInfo } from './user.interface';

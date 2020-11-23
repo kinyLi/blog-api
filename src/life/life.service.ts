@@ -13,12 +13,8 @@ export class LifeService {
 
   async setLife(setLifeDto: SetLifeDto):Promise<SetLifeDto> {
     // 获取时间,精确到秒
-    const date = +(new Date().getTime().toString()).substring(0, 10);
-
-    setLifeDto.date = date;
-    const lifeModel = new this.lifeModel(setLifeDto)
-
-    lifeModel.save();
+    setLifeDto.date = +(new Date().getTime().toString()).substring(0, 10);
+    await new this.lifeModel(setLifeDto).save();
 
     return setLifeDto;
   }

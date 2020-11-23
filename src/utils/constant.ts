@@ -6,4 +6,5 @@ const tokenMsg = {
 
 // 静态图片路径
 const imageHost = `http://${host}:5000/image/`;
-export {tokenMsg, imageHost, host}
+const settingImageHost = `http://${host}:5000/setting/image/`;
+export {tokenMsg, imageHost,settingImageHost, host}

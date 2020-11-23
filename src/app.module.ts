@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { ArticleModule } from './article/article.module';
 import { AppController } from './app.controller';
 import { SettingModule } from './setting/setting.module';
+import { LifeModule } from './life/life.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { SettingModule } from './setting/setting.module';
     UserModule,
     UtilsModule,
     SettingModule,
-    ArticleModule
+    ArticleModule,
+    LifeModule
   ],
   controllers: [AppController],
   providers: [],

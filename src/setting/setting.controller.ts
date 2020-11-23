@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Req, Res } from '@nestjs/common';
 import { ApiTags } from "@nestjs/swagger";
 import { SettingService } from './setting.service';
 
-@Controller('Setting')
+@Controller('setting')
 @ApiTags('后台管理设置')
 export class SettingController {
   constructor(private readonly SettingService:SettingService) {}
@@ -14,7 +14,7 @@ export class SettingController {
 
   @Get('setting')
   async getSetting() {
-    const data = await this.SettingService.getSetting();
+    const data = await this.SettingService.getSettingFile();
     return data;
   }
 

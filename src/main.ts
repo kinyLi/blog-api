@@ -20,7 +20,12 @@ async function bootstrap() {
   app.use(multipart())
 
   // 映射静态资源路径
-  app.use('/image',serveStatic(path.join(__dirname,'./setting/upload'), {
+  app.use('/image',serveStatic(path.join(__dirname,'./upload'), {
+    maxAge: '1d', // 缓存最大时间
+    extensions:['jpg', 'jpeg', 'png', 'gif'], //文件格式
+  }))
+
+  app.use('/setting/image',serveStatic(path.join(__dirname,'./setting/upload'), {
     maxAge: '1d', // 缓存最大时间
     extensions:['jpg', 'jpeg', 'png', 'gif'], //文件格式
   }))

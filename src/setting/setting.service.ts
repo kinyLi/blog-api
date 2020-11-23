@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Setting } from './setting.schema';
 import { SettingDto } from './dto/setting.dto';
-import { imageHost } from '../utils/constant';
+import { settingImageHost } from '../utils/constant';
+import UploadCache from '../upload/index';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -20,14 +21,14 @@ export class SettingService {
       return uploadPath;
     }
 
-    async getSetting():Promise<any> {
+    async getSettingFile():Promise<string> {
       const uploadPath = await this.getUploadPath();
       // 读取储存文件下的所有文件
       const data = await fs.readdirSync(uploadPath);
 
       // 返回文件
       if(data && data.length) {
-        return imageHost + data[0]
+        return settingImageHost + data[0]
       }
       return 'default.jpg';
     }
@@ -36,24 +37,27 @@ export class SettingService {
       // 存储逻辑
       // 文件流
       const data = await fs.readFileSync(settingDto.file.path);
-      const uploadPath = await this.getUploadPath();
+      const cachePath = await UploadCache.cache({data, dataName:settingDto.file.name, cacheName: 'setting', type: 'local'});
 
+      const settingUploadPath = await this.getUploadPath();
       // 检测文件夹是否存在 不存在则mkdir
-      if(!fs.existsSync(uploadPath)) {
+      if(!fs.existsSync(settingUploadPath)) {
         try{
-          await fs.mkdirSync(uploadPath);
+          await fs.mkdirSync(settingUploadPath);
         }catch (err) {
           console.log(err);
         }
       }
 
       // 合并文件名(统一文件名,实现覆盖流)
-      const settingPath = await path.join(uploadPath, settingDto.file.name);
+      const settingPath = await path.join(settingUploadPath, settingDto.file.name);
       try{
-        await fs.writeFileSync(settingPath, data,{flag: 'as+'});
+        // await fs.writeFileSync(settingPath, cachePath[0],{flag: 'as+'});
+        await fs.renameSync(cachePath[0], settingPath)
       }catch (err) {
         console.log(err);
       }
-      return 'ok'
+      await UploadCache.delCachePath('setting')
+      return await this.getSettingFile();
     }
 }

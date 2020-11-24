@@ -15,6 +15,46 @@ interface Cache {
 class UploadCache {
 
   /**
+   * 获取目标路径文件
+   * @path 目标文件夹路径
+   * @host 映射地址
+   */
+  async getTargetFiles(path, host) {
+    if(!path && !host) return [];
+    const data = await fs.readdirSync(path);
+    // 若文件不存则返回[],存在则判断是需要 local | host 路径返回对应路径
+    if(data && data.length) {
+      return data.map((item) => {
+        return host + item;
+      });
+    }
+    return [];
+  }
+
+  /**
+   * 缓存转存
+   * @targetPath 目标路径
+   * @cacheName 缓存文件夹名
+   * @targetIdPath 目标文件夹路劲
+   */
+  async cacheSaveTo(targetPath: string, targetIdPath: string, cacheName: string): Promise<string> {
+    // 确认路径及文件夹正确
+    if(!targetPath || !cacheName) return 'fail';
+    if(!fs.existsSync(targetPath)) fs.mkdirSync(targetPath);
+    if(!fs.existsSync(targetIdPath)) fs.mkdirSync(targetIdPath);
+
+    // 获取缓存目录文件
+    const files = await this.getCacheFile(cacheName, 'local');
+    // 文件转存
+    files.forEach(item => {
+      const fileName = path.basename(item)
+      const newPath = targetIdPath + '/' + fileName;
+      fs.renameSync(item, newPath);
+    });
+    return 'success';
+  }
+
+  /**
    * 删除缓存区文件夹
    * @cacheName 缓存区文件夹名
    */

@@ -30,6 +30,11 @@ async function bootstrap() {
     extensions:['jpg', 'jpeg', 'png', 'gif'], //文件格式
   }))
 
+  app.use('/life/image',serveStatic(path.join(__dirname,'./life/upload'), {
+    maxAge: '1d', // 缓存最大时间
+    extensions:['jpg', 'jpeg', 'png', 'gif'], //文件格式
+  }))
+
   // csrf跨站请求攻击 暂不配置
   // app.use(csurf());
 

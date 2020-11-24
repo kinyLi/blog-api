@@ -18,6 +18,12 @@ export class Life extends Document {
   @Prop()
   lifeDate: number;
 
+  @Prop()
+  username: string;
+
+  @Prop()
+  date: number;
+
 }
 
 export const LifeSchema = SchemaFactory.createForClass(Life)

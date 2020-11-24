@@ -7,4 +7,5 @@ const tokenMsg = {
 // 静态图片路径
 const imageHost = `http://${host}:5000/image/`;
 const settingImageHost = `http://${host}:5000/setting/image/`;
-export {tokenMsg, imageHost,settingImageHost, host}
+const lifeImageHost = `http://${host}:5000/life/image/`
+export {tokenMsg, imageHost,settingImageHost, host, lifeImageHost}

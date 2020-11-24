@@ -16,9 +16,6 @@ export class Life extends Document {
   lifeId: string;
 
   @Prop()
-  lifeDate: number;
-
-  @Prop()
   username: string;
 
   @Prop()

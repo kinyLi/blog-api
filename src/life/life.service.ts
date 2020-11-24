@@ -15,6 +15,11 @@ export class LifeService {
     @InjectModel(Life.name) private readonly lifeModel: Model<Life>
   ) {}
 
+  async getCacheLife(username): Promise<string[]> {
+    const files = UploadCache.getCacheFile(username, 'host');
+    return files;
+  }
+
   async setLife(setLifeDto: SetLifeDto):Promise<SetLifeDto | string> {
     // 添加创建时间
     const lifeModel = new this.lifeModel({

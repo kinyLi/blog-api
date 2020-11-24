@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Req, Query } from '@nestjs/common';
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LifeService } from './life.service';
-import { SetLifeDto, CacheLifeDto } from './dto';
+import { SetLifeDto, CacheLifeDto, GetCacheLifeDto } from './dto';
 import { Result } from './life.interface';
 
 @Controller('life')
@@ -15,7 +15,8 @@ export class LifeController {
   }
 
   @Get('getCache')
-  async getCacheLife(@Query() query: {username: string}): Promise<Result>{
+  @ApiOperation({ summary: '获取缓存区图片' })
+  async getCacheLife(@Query() query: GetCacheLifeDto): Promise<Result>{
     const data = await this.lifeService.getCacheLife(query.username);
     return {
       statusCode: 200,
@@ -25,11 +26,13 @@ export class LifeController {
   }
 
   @Post( 'cache')
+  @ApiOperation({ summary: '发布缓存区' })
   async cacheLifeImage(@Req() req: CacheLifeDto) {
     return await this.lifeService.cacheLifeImage(req)
   }
 
   @Post('set')
+  @ApiOperation({ summary: '发布' })
   async setLife(@Body() body: SetLifeDto): Promise<Result>{
     const data = await this.lifeService.setLife(body)
 

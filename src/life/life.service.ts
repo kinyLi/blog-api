@@ -5,6 +5,7 @@ import { Life } from './life.schema';
 import { SetLifeDto, CacheLifeDto } from './dto';
 import UploadCache from '../upload';
 import {lifeImageHost} from '../utils/constant';
+import { FileItem } from './life.interface';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -15,9 +16,15 @@ export class LifeService {
     @InjectModel(Life.name) private readonly lifeModel: Model<Life>
   ) {}
 
-  async getCacheLife(username): Promise<string[]> {
-    const files = UploadCache.getCacheFile(username, 'host');
-    return files;
+  async getCacheLife(username): Promise<FileItem[]> {
+    const files = await UploadCache.getCacheFile(username, 'host');
+    return files.map((file) => {
+      const fileName = path.basename(file)
+      return {
+        url: file,
+        name: fileName
+      }
+    })
   }
 
   async setLife(setLifeDto: SetLifeDto):Promise<SetLifeDto | string> {

@@ -1,4 +1,4 @@
-import { IsArray, IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 export class SetLifeDto {
   @ApiProperty({ description: '标题' })
@@ -11,7 +11,7 @@ export class SetLifeDto {
   @IsString()
   lifeContent: string;
 
-  @ApiProperty({description: 'username'})
+  @ApiProperty({description: '用户名'})
   @IsNotEmpty()
   @IsString()
   username: string;

@@ -21,13 +21,19 @@ class UploadCache {
    */
   async getTargetFiles(path, host) {
     if(!path && !host) return [];
-    const data = await fs.readdirSync(path);
-    // 若文件不存则返回[],存在则判断是需要 local | host 路径返回对应路径
-    if(data && data.length) {
-      return data.map((item) => {
-        return host + item;
-      });
+    try{
+      // 若文件不存则返回[],存在则判断是需要 local | host 路径返回对应路径
+      const data = await fs.readdirSync(path);
+      if(data && data.length) {
+        return data.map((item) => {
+          return host + item;
+        });
+      }
+    } catch (err) {
+      console.log(err)
     }
+
+
     return [];
   }
 
@@ -98,20 +104,24 @@ class UploadCache {
   async getCacheFile(cacheName: string, type: 'local' | 'host'):Promise<string[]> {
     // 先获取文件路径再获取文件
     const cachePath = await this.getCachePath(cacheName);
-    const data = await fs.readdirSync(cachePath);
+    try {
+      const data = await fs.readdirSync(cachePath);
+      if(data && data.length) {
+        if(type === 'local') {
+          return data.map((item) => {
+            return cachePath + '/' + item;
+          })
+        } else if(type === 'host') {
+          return data.map((item) => {
+            return imageHost + cacheName + '/' + item;
+          })
+        }
+      }
+    }catch (err) {
+      console.log(err)
+    }
 
     // 若文件不存则返回[],存在则判断是需要 local | host 路径返回对应路径
-    if(data && data.length) {
-      if(type === 'local') {
-        return data.map((item) => {
-          return cachePath + '/' + item;
-        })
-      } else if(type === 'host') {
-        return data.map((item) => {
-          return imageHost + cacheName + '/' + item;
-        })
-      }
-    }
     return [];
   }
 

@@ -31,7 +31,18 @@ export class LifeController {
     return await this.lifeService.cacheLifeImage(req)
   }
 
-  @Post('set')
+  @Get('getLife')
+  @ApiOperation({summary: '查询'})
+  async getLife() {
+    const data = await this.lifeService.getLife();
+    return {
+      statusCode: 200,
+      message: 'ok',
+      data
+    }
+  }
+
+  @Post('setLife')
   @ApiOperation({ summary: '发布' })
   async setLife(@Body() body: SetLifeDto): Promise<Result>{
     const data = await this.lifeService.setLife(body)

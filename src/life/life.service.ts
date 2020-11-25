@@ -27,6 +27,12 @@ export class LifeService {
     })
   }
 
+  async cacheLifeImage(cacheLifeDto: CacheLifeDto) {
+    const { files: { file }, body: { username } } = cacheLifeDto;
+    const data = await fs.readFileSync(file.path);
+    return UploadCache.cache({data, dataName: file.name, cacheName:username, type: 'host'});
+  }
+
   async setLife(setLifeDto: SetLifeDto):Promise<SetLifeDto | string> {
     // 添加创建时间
     const lifeModel = new this.lifeModel({
@@ -47,9 +53,9 @@ export class LifeService {
     return setLifeDto;
   }
 
-  async cacheLifeImage(cacheLifeDto: CacheLifeDto) {
-    const { files: { file }, body: { username } } = cacheLifeDto;
-    const data = await fs.readFileSync(file.path);
-    return UploadCache.cache({data, dataName: file.name, cacheName:username, type: 'host'});
+  async getLife() {
+    // 数据按时间降序
+    return this.lifeModel.find().sort({date: -1})
   }
+
 }

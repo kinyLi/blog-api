@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from "@nestjs/common";
+import { Controller, Get, Post, Body, Query } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { Article } from './article.schema';
 import { ArticleService } from './article.service';
@@ -10,8 +10,8 @@ export class ArticleController {
   constructor(private readonly articleService:ArticleService) {}
 
   @Get('get')
-  async getArticle():Promise<any> {
-    return await this.articleService.search();
+  async getArticle(@Query() body: GetArticleDto):Promise<any> {
+    return await this.articleService.search(body);
   }
 
   @Post('set')

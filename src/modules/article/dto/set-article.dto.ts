@@ -10,4 +10,6 @@ export class SetArticleDto {
   @IsNotEmpty()
   @IsString()
   content: string;
+
+  date: number;
 }

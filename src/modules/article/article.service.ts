@@ -12,35 +12,28 @@ export class ArticleService {
   ) {
   }
 
-    async search():Promise<any> {
-      // const { limit } = getArticleDto;
-      const data = await this.articleModel.find({title_id: 1});
-      // let data;
-      // if(limit) {
-      //   // 分页查询
-      //   data = await this.articleModel.find().limit(limit);
-      // }else {
-      //   data = await this.articleModel.find({title_id: 2});
-      // }
-      return data;
+    async search(getArticleDto):Promise<any> {
+      let { page, limit } = getArticleDto;
+      page = parseInt(page);
+      limit = parseInt(limit);
+      let data, isEnd;
+      if(page && limit) {
+        // 分页查询 故意多请求一条 用于判断是否到达页底
+        data = await this.articleModel.find().skip(page === 1 ? 0 : (page -1) * 10).limit(limit + 1);
+        // 判断是否加载完毕,
+        isEnd = data.length > limit ? 0 : 1;
+        !isEnd ? data.pop() : null;
+      }else {
+        data = await this.articleModel.find();
+        isEnd = 1;
+      }
+
+      return { data, isEnd };
     }
 
   async setArticle(setArticleDto: SetArticleDto):Promise<any> {
+    setArticleDto.date = +(new Date().getTime().toString().substring(0, 10));
     await this.articleModel.insertMany(setArticleDto);
-    await this.articleModel.db.collection('articles').createIndex({
-      title_id: 1
-    })
-    // set
-    // articleModel.db.collection(Article.name).createIndex({title_id: 1})
-    // await new this.articleModel(setArticleDto).save()
-    // const articleId = await setArticle.collection.createIndex(
-    //   {title: 1},
-    //   {
-    //     // unique: true,
-    //     background: true
-    //   }
-    // )
-    // setArticle.articleId = articleId;
     return {...setArticleDto};
   }
 

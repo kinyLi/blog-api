@@ -10,16 +10,8 @@ export class Article extends Document {
   content: string;
 
   @Prop()
-  articleId: string;
-
-  @Prop()
   date: number;
 
-  @Prop()
-  identiyu: number;
-
-  @Prop()
-  title_id: number;
 }
 
 export const ArticleSchema = SchemaFactory.createForClass(Article)

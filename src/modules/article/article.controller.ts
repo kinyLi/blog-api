@@ -20,7 +20,7 @@ export class ArticleController {
   }
 
   @Post('query')
-  async queryArticle(@Body() body: QueryArticleDto): Promise<any>{
+  async queryArticle(@Query() body: QueryArticleDto): Promise<any>{
     return await this.articleService.queryArticle(body);
   }
 }

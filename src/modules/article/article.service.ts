@@ -39,6 +39,14 @@ export class ArticleService {
 
   async queryArticle(queryArticleDto: QueryArticleDto):Promise<any> {
     const { keyword } = queryArticleDto;
-    return this.articleModel.find({title: keyword});
+    // 关键字 模糊查询
+    const reg = new RegExp(keyword, 'i');
+    const filter = {
+      $or: [
+        {title: {$regex: reg}},
+        {content: {$regex: reg}}
+      ]
+    }
+    return this.articleModel.find(filter  );
   }
 }

@@ -4,8 +4,8 @@ import { Model } from 'mongoose';
 import { CreateUserDto, LoginUserDto, UpdateUserDto } from './dto';
 import { User } from './user.schema';
 import { MASSAGE, CODE } from './user.constant';
-import { CryptoUtil } from '../utils/crypto.util';
-import { JwtUtil } from '../utils/jwt.util';
+import { CryptoUtil } from '../../utils/crypto.util';
+import { JwtUtil } from '../../utils/jwt.util';
 import { UserGetInfo } from './user.interface';
 
 @Injectable()

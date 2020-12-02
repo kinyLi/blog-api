@@ -9,24 +9,30 @@ export class ArticleService {
 
   constructor(
     @InjectModel(Article.name) private readonly articleModel: Model<Article>
-  ) {}
+  ) {
+  }
 
-    async search(getArticleDto: GetArticleDto):Promise<any> {
-      const { limit } = getArticleDto;
-      let data;
-      if(limit) {
-        // 分页查询
-        data = await this.articleModel.find().limit(limit);
-      }else {
-        data = await this.articleModel.find();
-      }
+    async search():Promise<any> {
+      // const { limit } = getArticleDto;
+      const data = await this.articleModel.find({title_id: 1});
+      // let data;
+      // if(limit) {
+      //   // 分页查询
+      //   data = await this.articleModel.find().limit(limit);
+      // }else {
+      //   data = await this.articleModel.find({title_id: 2});
+      // }
       return data;
     }
 
   async setArticle(setArticleDto: SetArticleDto):Promise<any> {
-    // set文章
-    // TODO: 索引及查询优化了解
-    await new this.articleModel(setArticleDto).save()
+    await this.articleModel.insertMany(setArticleDto);
+    await this.articleModel.db.collection('articles').createIndex({
+      title_id: 1
+    })
+    // set
+    // articleModel.db.collection(Article.name).createIndex({title_id: 1})
+    // await new this.articleModel(setArticleDto).save()
     // const articleId = await setArticle.collection.createIndex(
     //   {title: 1},
     //   {

@@ -10,8 +10,8 @@ export class ArticleController {
   constructor(private readonly articleService:ArticleService) {}
 
   @Get('get')
-  async getArticle(@Body() body: GetArticleDto):Promise<any> {
-    return await this.articleService.search(body);
+  async getArticle():Promise<any> {
+    return await this.articleService.search();
   }
 
   @Post('set')

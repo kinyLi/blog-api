@@ -3,8 +3,8 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Setting } from './setting.schema';
 import { SettingDto } from './dto/setting.dto';
-import { settingImageHost } from '../utils/constant';
-import UploadCache from '../upload/index';
+import { settingImageHost } from '../../utils/constant';
+import UploadCache from '../../upload';
 import * as fs from 'fs';
 import * as path from 'path';
 

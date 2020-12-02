@@ -38,15 +38,23 @@ export class ArticleService {
   }
 
   async queryArticle(queryArticleDto: QueryArticleDto):Promise<any> {
-    const { keyword } = queryArticleDto;
-    // 关键字 模糊查询
-    const reg = new RegExp(keyword, 'i');
-    const filter = {
-      $or: [
-        {title: {$regex: reg}},
-        {content: {$regex: reg}}
-      ]
+    const { keyword, startTime, endTime } = queryArticleDto;
+
+    if(keyword) {
+      const reg = new RegExp(keyword, 'i');
+      const filter = {
+        $or: [
+          {title: {$regex: reg}},
+          {content: {$regex: reg}}
+        ]
+      }
+      return this.articleModel.find(filter  );
     }
-    return this.articleModel.find(filter  );
+    // 关键字 模糊查询
+    if(startTime && endTime) {
+      return this.articleModel.find({ date: { '$gte': parseInt(startTime), '$lt': parseInt(endTime) } })
+    }
+
+    return [];
   }
 }

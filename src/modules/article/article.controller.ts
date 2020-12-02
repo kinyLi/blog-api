@@ -19,7 +19,7 @@ export class ArticleController {
     return await this.articleService.setArticle(body);
   }
 
-  @Post('query')
+  @Get('query')
   async queryArticle(@Query() body: QueryArticleDto): Promise<any>{
     return await this.articleService.queryArticle(body);
   }

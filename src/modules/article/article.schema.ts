@@ -10,6 +10,9 @@ export class Article extends Document {
   content: string;
 
   @Prop()
+  description: string;
+
+  @Prop()
   date: number;
 
 }

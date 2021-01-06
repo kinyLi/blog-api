@@ -11,5 +11,8 @@ export class SetArticleDto {
   @IsString()
   content: string;
 
+  @ApiProperty( {description: '描叙'})
+  description: string;
+
   date: number;
 }

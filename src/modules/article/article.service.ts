@@ -33,6 +33,11 @@ export class ArticleService {
 
   async setArticle(setArticleDto: SetArticleDto):Promise<any> {
     setArticleDto.date = +(new Date().getTime().toString().substring(0, 10));
+    // 有描叙的情况使用描叙, 没有则使用内容前20字作为描叙
+    if(!setArticleDto.description) {
+      setArticleDto.description = setArticleDto.content.substring(0, 20);
+    }
+
     await this.articleModel.insertMany(setArticleDto);
     return {...setArticleDto};
   }

@@ -62,4 +62,9 @@ export class ArticleService {
 
     return [];
   }
+
+  async deleteArticle(id: string): Promise<number> {
+    await this.articleModel.findByIdAndRemove(id);
+    return 200;
+  }
 }

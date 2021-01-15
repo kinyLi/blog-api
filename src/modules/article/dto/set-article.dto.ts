@@ -11,6 +11,11 @@ export class SetArticleDto {
   @IsString()
   content: string;
 
+  @ApiProperty({ description: '封面' })
+  @IsNotEmpty()
+  @IsString()
+  cover: string;
+
   @ApiProperty( {description: '描叙'})
   description: string;
 

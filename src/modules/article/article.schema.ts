@@ -15,6 +15,9 @@ export class Article extends Document {
   @Prop()
   date: number;
 
+  @Prop({required: true})
+  cover: string;
+
 }
 
 export const ArticleSchema = SchemaFactory.createForClass(Article)

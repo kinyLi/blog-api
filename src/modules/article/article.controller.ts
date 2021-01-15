@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, Query } from "@nestjs/common";
+import { Controller, Get, Post, Body, Query, Delete } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { Article } from './article.schema';
 import { ArticleService } from './article.service';
-import { GetArticleDto, SetArticleDto, QueryArticleDto } from './dto';
+import { GetArticleDto, SetArticleDto, QueryArticleDto, DeleteArticleDto } from './dto';
 
 @Controller('article')
 @ApiTags('文章相关')
@@ -22,5 +22,10 @@ export class ArticleController {
   @Get('query')
   async queryArticle(@Query() body: QueryArticleDto): Promise<any>{
     return await this.articleService.queryArticle(body);
+  }
+
+  @Delete('delete')
+  async deleteArticle(@Body() body: DeleteArticleDto): Promise<number> {
+    return await this.articleService.deleteArticle(body.id)
   }
 }
